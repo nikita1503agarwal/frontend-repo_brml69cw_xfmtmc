@@ -1,71 +1,82 @@
+import { useEffect, useState } from 'react'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import Work from './components/Work'
+import { BriefForm, CreatorForm, SubscribeForm } from './components/Forms'
+import './index.css'
+
+const API_BASE = import.meta.env.VITE_BACKEND_URL || ''
+
 function App() {
+  const [work, setWork] = useState([])
+
+  useEffect(() => {
+    fetch(`${API_BASE}/api/showcase`).then(r => r.json()).then(setWork).catch(() => {})
+  }, [])
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.05),transparent_50%)]"></div>
+    <div className="bg-[#0B0B0B] text-white selection:bg-[#E11D2A] selection:text-white">
+      <Header />
+      <main>
+        <Hero />
 
-      <div className="relative min-h-screen flex items-center justify-center p-8">
-        <div className="max-w-2xl w-full">
-          {/* Header with Flames icon */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center mb-6">
-              <img
-                src="/flame-icon.svg"
-                alt="Flames"
-                className="w-24 h-24 drop-shadow-[0_0_25px_rgba(59,130,246,0.5)]"
-              />
+        <Work items={work} />
+
+        <section id="brief" className="bg-[#0B0B0B] py-16 sm:py-24 border-t border-white/5">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div>
+              <h2 className="font-[Anton] text-3xl sm:text-4xl">SUBMIT A BRIEF</h2>
+              <p className="mt-2 text-[#9C9C9C]">Brands and artists — tell us what you need. We move fast and hit hard.</p>
+              <div className="mt-6"><BriefForm /></div>
             </div>
-
-            <h1 className="text-5xl font-bold text-white mb-4 tracking-tight">
-              Flames Blue
-            </h1>
-
-            <p className="text-xl text-blue-200 mb-6">
-              Build applications through conversation
-            </p>
-          </div>
-
-          {/* Instructions */}
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-8 shadow-xl mb-6">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">
-                1
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Describe your idea</h3>
-                <p className="text-blue-200/80 text-sm">Use the chat panel on the left to tell the AI what you want to build</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">
-                2
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Watch it build</h3>
-                <p className="text-blue-200/80 text-sm">Your app will appear in this preview as the AI generates the code</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">
-                3
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Refine and iterate</h3>
-                <p className="text-blue-200/80 text-sm">Continue the conversation to add features and make changes</p>
-              </div>
+            <div className="bg-[#0E0E0E] border border-white/5 p-6 rounded-sm">
+              <h3 className="font-[Anton] text-xl">WHAT WE DO</h3>
+              <ul className="mt-3 space-y-2 text-[#9C9C9C] text-sm list-disc pl-5">
+                <li>Music videos, performance films, short-form edits</li>
+                <li>Campaign content, lookbooks, product films</li>
+                <li>Photography: editorial, street, portrait</li>
+                <li>Art direction and creative production</li>
+              </ul>
             </div>
           </div>
+        </section>
 
-          {/* Footer */}
-          <div className="text-center">
-            <p className="text-sm text-blue-300/60">
-              No coding required • Just describe what you want
-            </p>
+        <section id="creators" className="bg-[#0B0B0B] py-16 sm:py-24 border-t border-white/5">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div>
+              <h2 className="font-[Anton] text-3xl sm:text-4xl">JOIN THE LABEL</h2>
+              <p className="mt-2 text-[#9C9C9C]">Filmmakers, photographers, editors, designers — build with DSM.</p>
+              <div className="mt-6"><CreatorForm /></div>
+            </div>
+            <div className="bg-[#0E0E0E] border border-white/5 p-6 rounded-sm">
+              <h3 className="font-[Anton] text-xl">WHAT WE LOOK FOR</h3>
+              <ul className="mt-3 space-y-2 text-[#9C9C9C] text-sm list-disc pl-5">
+                <li>Distinct voice and visual identity</li>
+                <li>Reliability and speed</li>
+                <li>Comfort in raw, underground environments</li>
+                <li>Obsession with craft</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        <section id="subscribe" className="bg-[#0B0B0B] py-16 sm:py-24 border-t border-white/5">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div className="md:col-span-2">
+              <h2 className="font-[Anton] text-3xl sm:text-4xl">STAY IN THE DUSK</h2>
+              <p className="mt-2 text-[#9C9C9C]">Culture drops, releases, calls for creators.</p>
+            </div>
+            <div className="md:justify-self-end"><SubscribeForm /></div>
+          </div>
+        </section>
+
+        <footer className="bg-[#0B0B0B] border-t border-white/5 py-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-[#9C9C9C] text-sm">© {new Date().getFullYear()} Dusk Society Media. All rights reserved.</p>
+            <div className="text-xs text-[#9C9C9C]">Built fast. Zero apologies.</div>
+          </div>
+        </footer>
+      </main>
     </div>
   )
 }
